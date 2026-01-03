@@ -1,76 +1,153 @@
-/* Google Font */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* ================= THEME VARIABLES ================= */
+
+:root {
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --subtext: #475569;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+}
+
+/* DARK MODE */
+body.dark {
+  --bg: #020617;
+  --card: #020617;
+  --text: #e5e7eb;
+  --subtext: #94a3b8;
+  --border: #1e293b;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+}
+
+/* ================= RESET ================= */
 
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
 }
 
 body {
-  background: #f4f6f9;
-  color: #1f2937;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Headings */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ================= LAYOUT ================= */
+
+.page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 80px 24px;
+}
+
+section {
+  margin-bottom: 100px;
+}
+
+/* ================= TYPOGRAPHY ================= */
+
 h1 {
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 54px;
+  line-height: 1.1;
+  margin-bottom: 20px;
 }
 
 h2 {
-  font-size: 22px;
-  margin-bottom: 10px;
+  font-size: 36px;
+  margin-bottom: 20px;
 }
 
-h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
+p {
+  color: var(--subtext);
+  line-height: 1.7;
 }
 
-/* Page container */
-.page {
-  padding: 30px;
+/* ================= BUTTONS ================= */
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-/* Card */
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-outline {
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+/* ================= CARDS ================= */
+
 .card {
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+/* ================= ICONS ================= */
+
+.material-icons {
+  color: var(--primary);
 }
 
-/* Status colors */
-.status-high {
-  background: linear-gradient(135deg, #ff4d4d, #ff7676);
-  color: white;
+/* ================= TECH STACK SCROLL ================= */
+
+.tech-scroll {
+  overflow: hidden;
+  margin: 80px 0;
 }
 
-.status-medium {
-  background: linear-gradient(135deg, #ffa500, #ffc04d);
-  color: white;
+.tech-track {
+  display: flex;
+  gap: 60px;
+  height: 100px;
+  justify-content: center;
+  animation: techScroll 15s linear infinite;
 }
 
-.status-low {
-  background: linear-gradient(135deg, #4caf50, #6fdc8c);
-  color: white;
+@keyframes techScroll {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
-/* Grid layouts */
-.grid-3 {
+/* ================= TEAM ================= */
+
+.team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
 }
 
-.section {
-  margin-top: 40px;
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 12px;
 }

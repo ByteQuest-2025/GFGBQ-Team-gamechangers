@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
 import Navbar from "../../components/Navbar";
@@ -80,13 +81,19 @@ const AdminDashboard = () => {
         <h1>Admin Dashboard</h1>
 
         {/* ===== SUMMARY CARDS ===== */}
-        <div className="grid-3 section">
-          <AdminCard title="Total Hospitals" value={summary.totalHospitals} />
-          <AdminCard title="High Emergency Surge" value={summary.highSurge} />
-          <AdminCard title="Critical ICU Risk" value={summary.criticalICU} />
-          <AdminCard title="High Staff Burnout" value={summary.highBurnout} />
-        </div>
-
+        <motion.div
+          className="grid-3 section"
+          variants={containerVariant}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="grid-3 section">
+            <AdminCard title="Total Hospitals" value={summary.totalHospitals} />
+            <AdminCard title="High Emergency Surge" value={summary.highSurge} />
+            <AdminCard title="Critical ICU Risk" value={summary.criticalICU} />
+            <AdminCard title="High Staff Burnout" value={summary.highBurnout} />
+          </div>
+        </motion.div>
         {/* ===== HOSPITAL COMPARISON ===== */}
         <div className="card section">
           <h2>Hospital Emergency Load Comparison</h2>
@@ -107,15 +114,38 @@ const AdminDashboard = () => {
     </>
   );
 };
+// ================= ANIMATION VARIANTS =================
+
+const containerVariant = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
 
 /* ===== ADMIN SUMMARY CARD ===== */
 
 const AdminCard = ({ title, value }) => {
   return (
-    <div className="card">
+    <motion.div
+      className="card"
+      variants={cardVariant}
+      whileHover={{ scale: 1.03 }}
+    >
       <h3>{title}</h3>
       <p style={{ fontSize: "26px", fontWeight: "600" }}>{value}</p>
-    </div>
+    </motion.div>
   );
 };
 

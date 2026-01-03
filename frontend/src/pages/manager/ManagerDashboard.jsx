@@ -1,6 +1,8 @@
+import { motion } from "framer-motion";
 import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
 import api from "../../api/axios";
+
 import {
   LineChart,
   Line,
@@ -10,6 +12,23 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+
+const containerVariant = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+const cardVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
 
 const ManagerDashboard = () => {
   const [predictions, setPredictions] = useState(null);
@@ -59,72 +78,85 @@ const ManagerDashboard = () => {
   if (loading) return <h3 style={{ padding: "30px" }}>Loading dashboard...</h3>;
 
   return (
-      <>
-    <Navbar />
-   
-    <div className="page">
-      <h1>Manager Dashboard</h1>
+    <>
+      <Navbar />
 
-      {/* ================= STATUS CARDS ================= */}
-      <div className="grid-3 section">
-        <StatusCard
-          title="Emergency Surge"
-          value={predictions.emergency_surge}
-        />
-        <StatusCard title="ICU Bed Status" value={predictions.icu_shortage} />
-        <StatusCard
-          title="Staff Burnout Risk"
-          value={predictions.staff_burnout}
-        />
-      </div>
+      <div className="page">
+        <h1>Manager Dashboard</h1>
 
-      {/* ================= EMERGENCY ADMISSIONS ================= */}
-      <div className="card section">
-        <h2>Emergency Admissions Trend</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={admissions}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="emergency"
-              stroke="#ff4d4d"
-              strokeWidth={3}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
+        {/* ================= STATUS CARDS ================= */}
+        <div className="grid-3 section">
+          <StatusCard
+            title="Emergency Surge"
+            value={predictions.emergency_surge}
+          />
+          <StatusCard title="ICU Bed Status" value={predictions.icu_shortage} />
+          <StatusCard
+            title="Staff Burnout Risk"
+            value={predictions.staff_burnout}
+          />
+        </div>
 
-      {/* ================= STAFF WORKLOAD ================= */}
-      <div className="card section">
-        <h2>Staff Workload Trend</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={staffData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Line
-              type="monotone"
-              dataKey="patients"
-              stroke="#4caf50"
-              strokeWidth={3}
-              name="Patients Handled"
-            />
-            <Line
-              type="monotone"
-              dataKey="overtime"
-              stroke="#ffa500"
-              strokeWidth={2}
-              name="Overtime Hours"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        {/* ================= EMERGENCY ADMISSIONS ================= */}
+        <motion.div
+          className="card section"
+          variants={cardVariant}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="card section">
+            <h2>Emergency Admissions Trend</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={admissions}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="emergency"
+                  stroke="#ff4d4d"
+                  strokeWidth={3}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </motion.div>
+        {/* ================= STAFF WORKLOAD ================= */}
+        <motion.div
+          className="card section"
+          variants={cardVariant}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="card section">
+            <h2>Staff Workload Trend</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={staffData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="patients"
+                  stroke="#4caf50"
+                  strokeWidth={3}
+                  name="Patients Handled"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="overtime"
+                  stroke="#ffa500"
+                  strokeWidth={2}
+                  name="Overtime Hours"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </motion.div>
       </div>
-    </div>
-  </>
+    </>
   );
 };
 
