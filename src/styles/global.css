@@ -1,0 +1,76 @@
+/* Google Font */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f4f6f9;
+  color: #1f2937;
+}
+
+/* Headings */
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+/* Page container */
+.page {
+  padding: 30px;
+}
+
+/* Card */
+.card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Status colors */
+.status-high {
+  background: linear-gradient(135deg, #ff4d4d, #ff7676);
+  color: white;
+}
+
+.status-medium {
+  background: linear-gradient(135deg, #ffa500, #ffc04d);
+  color: white;
+}
+
+.status-low {
+  background: linear-gradient(135deg, #4caf50, #6fdc8c);
+  color: white;
+}
+
+/* Grid layouts */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.section {
+  margin-top: 40px;
+}
