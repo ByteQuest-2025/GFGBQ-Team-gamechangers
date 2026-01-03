@@ -3,9 +3,9 @@
 
 💻 Problem Statement : Predictive Hospital Resource & Emergency Load Intelligence System
 
-Hospitals often struggle to manage emergency care due to sudden surges in patient admissions caused by outbreaks, seasonal changes, accidents, and public health crises. These unpredictable spikes lead to ICU shortages, overworked staff, delayed treatment, and reduced quality of care. Most hospitals rely on reactive decision-making, responding only after resources are strained, which results in inefficiencies and staff burnout.
+* Hospitals often struggle to manage emergency care due to sudden surges in patient admissions caused by outbreaks, seasonal changes, accidents, and public health crises. These unpredictable spikes lead to ICU shortages, overworked staff, delayed treatment, and reduced quality of care. Most hospitals rely on reactive decision-making, responding only after resources are strained, which results in inefficiencies and staff burnout.
 
-This project proposes a Predictive Hospital Resource & Emergency Load Intelligence System that uses AI and Machine Learning to forecast emergency admissions, ICU demand, and staff workload in advance. By analyzing historical hospital data along with external factors such as disease trends and seasonal patterns, the system provides early warnings and actionable insights, enabling proactive resource planning, optimized staff allocation, and improved patient outcomes.
+* This project proposes a Predictive Hospital Resource & Emergency Load Intelligence System that uses AI and Machine Learning to forecast emergency admissions, ICU demand, and staff workload in advance. By analyzing historical hospital data along with external factors such as disease trends and seasonal patterns, the system provides early warnings and actionable insights, enabling proactive resource planning, optimized staff allocation, and improved patient outcomes.
 
 <p align="center"> <img src="https://img.shields.io/badge/status-active-success" /> <img src="https://img.shields.io/badge/made%20with-react-blue" /> <img src="https://img.shields.io/badge/license-MIT-green" /> </p>
 
