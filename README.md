@@ -1,6 +1,3 @@
-<div style="border: 2px solid #4CAF50; padding: 10px; display: inline-block; border-radius: 5px;">
-  <img src="screenshots/home.png" alt="Home Page" width="400">
-</div>
 # 🚀 Project 
 
 
