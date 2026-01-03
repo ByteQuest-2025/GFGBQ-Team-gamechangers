@@ -2,7 +2,6 @@
 
 Problem Statement : Predictive Hospital Resource & Emergency Load Intelligence System
 
-> Short one-line description of what your project does and who it is for.
 
 ![Status](https://img.shields.io/badge/status-active-success)
 ![Made with React](https://img.shields.io/badge/Made%20with-React-blue)
@@ -22,7 +21,6 @@ Problem Statement : Predictive Hospital Resource & Emergency Load Intelligence S
 * [Deployment](#-deployment)
 * [Future Enhancements](#-future-enhancements)
 * [Contributing](#-contributing)
-* [License](#-license)
 * [Author](#-author)
 
 ---
@@ -146,12 +144,6 @@ Contributions are welcome!
 3. Commit your changes
 4. Push to the branch
 5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License**.
 
 ---
 
