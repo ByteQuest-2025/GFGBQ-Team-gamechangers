@@ -1,180 +1,170 @@
-import { motion } from "framer-motion";
-import Navbar from "../../components/Navbar";
 import { useEffect, useState } from "react";
-import api from "../../api/axios";
-
 import {
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-
-const containerVariant = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
-  },
-};
-
-const cardVariant = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
-  },
-};
+import { useAuth } from "../../context/AuthContext";
 
 const ManagerDashboard = () => {
-  const [predictions, setPredictions] = useState(null);
-  const [admissions, setAdmissions] = useState([]);
-  const [staffData, setStaffData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { logout } = useAuth();
 
-  // TEMP: static hospital id
-  // Later we’ll make it dynamic (hospital selector)
-  const hospitalId = 1;
+  const [stats, setStats] = useState({
+    admissions: 87,
+    icuUsed: 14,
+    icuTotal: 60,
+    staff: 112,
+    risk: "Medium",
+    next24h: 95,
+  });
 
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        const [predRes, admRes, staffRes] = await Promise.all([
-          api.get(`/predictions/${hospitalId}`),
-          api.get(`/admissions/${hospitalId}`),
-          api.get(`/staff/${hospitalId}`),
-        ]);
-
-        setPredictions(predRes.data);
-
-        setAdmissions(
-          admRes.data.map((d) => ({
-            date: d.date,
-            emergency: d.emergency_cases,
-          }))
-        );
-
-        setStaffData(
-          staffRes.data.map((d) => ({
-            date: d.date,
-            patients: d.patients_handled,
-            overtime: d.overtime_hours,
-          }))
-        );
-      } catch (error) {
-        console.error("Manager dashboard error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDashboardData();
+    const i = setInterval(() => {
+      setStats((s) => ({
+        ...s,
+        admissions: s.admissions + Math.floor(Math.random() * 4),
+        icuUsed: Math.min(
+          s.icuTotal,
+          Math.max(5, s.icuUsed + (Math.random() * 3 - 1))
+        ),
+        staff: s.staff + Math.floor(Math.random() * 2 - 1),
+        risk: Math.random() > 0.6 ? "High" : "Medium",
+        next24h: s.next24h + Math.floor(Math.random() * 5 - 2),
+      }));
+    }, 3000);
+    return () => clearInterval(i);
   }, []);
 
-  if (loading) return <h3 style={{ padding: "30px" }}>Loading dashboard...</h3>;
+  const icuPercent = Math.round((stats.icuUsed / stats.icuTotal) * 100);
+
+  const staffData = [
+    { dept: "ER", value: 60 },
+    { dept: "ICU", value: 85 },
+    { dept: "OPD", value: 40 },
+    { dept: "Ward", value: 70 },
+  ];
+
+  const flowData = [
+    { day: "Mon", value: 30 },
+    { day: "Tue", value: 55 },
+    { day: "Wed", value: 45 },
+    { day: "Thu", value: 60 },
+    { day: "Fri", value: 50 },
+  ];
 
   return (
-    <>
-      <Navbar />
+    <div style={layout}>
+      <aside style={sidebar}>
+        <h2>Medix</h2>
+        <p className="active">Overview</p>
+        <p>My Hospital</p>
+        <p>Analytics</p>
+        <p onClick={logout} style={{ color: "#f87171", cursor: "pointer" }}>
+          Logout
+        </p>
+      </aside>
 
-      <div className="page">
+      <main style={main}>
         <h1>Manager Dashboard</h1>
 
-        {/* ================= STATUS CARDS ================= */}
-        <div className="grid-3 section">
-          <StatusCard
-            title="Emergency Surge"
-            value={predictions.emergency_surge}
+        <div style={grid}>
+          <Card title="Today's Admissions" value={stats.admissions} />
+          <Card
+            title="ICU Beds"
+            value={`${stats.icuUsed} / ${stats.icuTotal}`}
           />
-          <StatusCard title="ICU Bed Status" value={predictions.icu_shortage} />
-          <StatusCard
-            title="Staff Burnout Risk"
-            value={predictions.staff_burnout}
-          />
+          <Card title="Staff on Duty" value={stats.staff} />
+          <Card title="Risk Level" value={stats.risk} highlight />
         </div>
 
-        {/* ================= EMERGENCY ADMISSIONS ================= */}
-        <motion.div
-          className="card section"
-          variants={cardVariant}
-          initial="hidden"
-          animate="visible"
-        >
-          <div className="card section">
-            <h2>Emergency Admissions Trend</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={admissions}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
+        <div style={row}>
+          <div style={card}>
+            <h3>ICU Occupancy</h3>
+            <h1>{icuPercent}%</h1>
+          </div>
+
+          <div style={{ ...card, background: "#0f4c81", color: "#fff" }}>
+            <h3>Prediction Panel</h3>
+            <p>Next 24h Admissions</p>
+            <h1>~{stats.next24h}</h1>
+            <p>Next 72h ICU Demand</p>
+            <h2 style={{ color: "#facc15" }}>{stats.risk}</h2>
+          </div>
+        </div>
+
+        <div style={row}>
+          <div style={card}>
+            <h4>Staff Allocation</h4>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={staffData}>
+                <XAxis dataKey="dept" />
                 <YAxis />
                 <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="emergency"
-                  stroke="#ff4d4d"
-                  strokeWidth={3}
-                />
-              </LineChart>
+                <Bar dataKey="value" fill="#2563eb" />
+              </BarChart>
             </ResponsiveContainer>
           </div>
-        </motion.div>
-        {/* ================= STAFF WORKLOAD ================= */}
-        <motion.div
-          className="card section"
-          variants={cardVariant}
-          initial="hidden"
-          animate="visible"
-        >
-          <div className="card section">
-            <h2>Staff Workload Trend</h2>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={staffData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
+
+          <div style={card}>
+            <h4>Patient Flow</h4>
+            <ResponsiveContainer width="100%" height={200}>
+              <AreaChart data={flowData}>
+                <XAxis dataKey="day" />
                 <YAxis />
                 <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="patients"
-                  stroke="#4caf50"
-                  strokeWidth={3}
-                  name="Patients Handled"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="overtime"
-                  stroke="#ffa500"
-                  strokeWidth={2}
-                  name="Overtime Hours"
-                />
-              </LineChart>
+                <Area dataKey="value" stroke="#16a34a" fill="#bbf7d0" />
+              </AreaChart>
             </ResponsiveContainer>
           </div>
-        </motion.div>
-      </div>
-    </>
+        </div>
+      </main>
+    </div>
   );
 };
 
-/* ================= STATUS CARD ================= */
+const Card = ({ title, value, highlight }) => (
+  <div style={kpi}>
+    <p>{title}</p>
+    <h2 style={{ color: highlight ? "#ca8a04" : "#0f172a" }}>{value}</h2>
+  </div>
+);
 
-const StatusCard = ({ title, value }) => {
-  const getClass = () => {
-    if (value === "HIGH" || value === "CRITICAL") return "status-high";
-    if (value === "MEDIUM" || value === "WARNING") return "status-medium";
-    return "status-low";
-  };
-
-  return (
-    <div className={`card ${getClass()}`}>
-      <h3>{title}</h3>
-      <p style={{ fontSize: "22px", fontWeight: "600" }}>{value}</p>
-    </div>
-  );
+const layout = { display: "flex", minHeight: "100vh", background: "#f1f5f9" };
+const sidebar = {
+  width: 220,
+  background: "#0f172a",
+  color: "#fff",
+  padding: 24,
+};
+const main = { flex: 1, padding: 32 };
+const grid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+  gap: 20,
+  marginBottom: 32,
+};
+const row = {
+  display: "grid",
+  gridTemplateColumns: "2fr 1fr",
+  gap: 20,
+  marginBottom: 32,
+};
+const kpi = {
+  background: "#fff",
+  padding: 20,
+  borderRadius: 14,
+  boxShadow: "0 10px 25px rgba(0,0,0,.08)",
+};
+const card = {
+  background: "#fff",
+  padding: 24,
+  borderRadius: 14,
+  boxShadow: "0 10px 25px rgba(0,0,0,.08)",
 };
 
 export default ManagerDashboard;

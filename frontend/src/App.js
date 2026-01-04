@@ -1,19 +1,19 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-/* ===== AUTH ===== */
+/* AUTH */
 import Login from "./auth/Login";
 import Register from "./auth/Register";
 
-/* ===== PUBLIC PAGES ===== */
+/* PUBLIC */
 import Home from "./pages/public/Home";
 import Features from "./pages/public/Features";
 import About from "./pages/public/About";
 
-/* ===== DASHBOARDS ===== */
-import ManagerDashboard from "./pages/manager/ManagerDashboard";
+/* DASHBOARDS */
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import ManagerDashboard from "./pages/manager/ManagerDashboard";
 
-/* ===== PROTECTION ===== */
+/* PROTECTION */
 import ProtectedRoute from "./components/ProtectedRoute";
 import { useAuth } from "./context/AuthContext";
 
@@ -23,20 +23,20 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* ================= PUBLIC ROUTES ================= */}
+        {/* PUBLIC */}
         <Route path="/" element={<Home />} />
         <Route path="/features" element={<Features />} />
         <Route path="/about" element={<About />} />
 
-        {/* ================= AUTH ROUTES ================= */}
+        {/* AUTH */}
         <Route
           path="/login"
           element={
             user ? (
               user.role === "ADMIN" ? (
-                <Navigate to="/admin/dashboard" />
+                <Navigate to="/admin/dashboard" replace />
               ) : (
-                <Navigate to="/manager/dashboard" />
+                <Navigate to="/manager/dashboard" replace />
               )
             ) : (
               <Login />
@@ -46,10 +46,10 @@ function App() {
 
         <Route
           path="/register"
-          element={user ? <Navigate to="/" /> : <Register />}
+          element={user ? <Navigate to="/" replace /> : <Register />}
         />
 
-        {/* ================= MANAGER DASHBOARD ================= */}
+        {/* MANAGER */}
         <Route
           path="/manager/dashboard"
           element={
@@ -59,7 +59,7 @@ function App() {
           }
         />
 
-        {/* ================= ADMIN DASHBOARD ================= */}
+        {/* ADMIN */}
         <Route
           path="/admin/dashboard"
           element={
@@ -69,8 +69,8 @@ function App() {
           }
         />
 
-        {/* ================= FALLBACK ================= */}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/* FALLBACK */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

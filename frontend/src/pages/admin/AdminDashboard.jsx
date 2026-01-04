@@ -1,152 +1,128 @@
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import api from "../../api/axios";
-import Navbar from "../../components/Navbar";
 import {
-  BarChart,
-  Bar,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useAuth } from "../../context/AuthContext";
 
 const AdminDashboard = () => {
-  const [hospitals, setHospitals] = useState([]);
-  const [summary, setSummary] = useState({
-    totalHospitals: 0,
-    highSurge: 0,
-    criticalICU: 0,
-    highBurnout: 0,
+  const { logout } = useAuth();
+
+  const [stats, setStats] = useState({
+    hospitals: 128,
+    icu: 74,
+    managers: 210,
+    alerts: 12,
   });
-  const [loading, setLoading] = useState(true);
+
+  const [chartData, setChartData] = useState([
+    { month: "Jan", load: 20 },
+    { month: "Feb", load: 35 },
+    { month: "Mar", load: 50 },
+    { month: "Apr", load: 78 },
+    { month: "May", load: 70 },
+    { month: "Jun", load: 75 },
+  ]);
 
   useEffect(() => {
-    const fetchAdminData = async () => {
-      try {
-        // 1. Get all hospitals
-        const hospitalRes = await api.get("/hospitals");
-        const hospitalList = hospitalRes.data;
+    const i = setInterval(() => {
+      setStats((s) => ({
+        hospitals: s.hospitals + Math.floor(Math.random() * 2),
+        icu: Math.min(100, Math.max(50, s.icu + (Math.random() * 4 - 2))),
+        managers: s.managers + Math.floor(Math.random() * 2),
+        alerts: Math.max(0, s.alerts + Math.floor(Math.random() * 3 - 1)),
+      }));
 
-        let surge = 0;
-        let icu = 0;
-        let burnout = 0;
-        const chartData = [];
+      setChartData((d) =>
+        d.map((x) => ({
+          ...x,
+          load: Math.min(95, Math.max(20, x.load + (Math.random() * 6 - 3))),
+        }))
+      );
+    }, 3000);
 
-        // 2. For each hospital → get predictions
-        for (let h of hospitalList) {
-          const predRes = await api.get(`/predictions/${h.id}`);
-          const p = predRes.data;
-
-          if (p.emergency_surge === "HIGH") surge++;
-          if (p.icu_shortage === "CRITICAL") icu++;
-          if (p.staff_burnout === "HIGH") burnout++;
-
-          chartData.push({
-            name: h.name,
-            emergency:
-              p.emergency_surge === "HIGH"
-                ? 3
-                : p.emergency_surge === "MEDIUM"
-                ? 2
-                : 1,
-          });
-        }
-
-        setHospitals(chartData);
-        setSummary({
-          totalHospitals: hospitalList.length,
-          highSurge: surge,
-          criticalICU: icu,
-          highBurnout: burnout,
-        });
-      } catch (error) {
-        console.error("Admin dashboard error:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAdminData();
+    return () => clearInterval(i);
   }, []);
 
-  if (loading)
-    return <h3 style={{ padding: "30px" }}>Loading admin dashboard...</h3>;
-
   return (
-    <>
-      <Navbar />
-      <div className="page">
+    <div style={layout}>
+      <aside style={sidebar}>
+        <h2>Medix</h2>
+        <nav>
+          <p className="active">Overview</p>
+          <p>Hospitals</p>
+          <p>Analytics</p>
+          <p onClick={logout} style={{ cursor: "pointer", color: "#f87171" }}>
+            Logout
+          </p>
+        </nav>
+      </aside>
+
+      <main style={main}>
         <h1>Admin Dashboard</h1>
 
-        {/* ===== SUMMARY CARDS ===== */}
-        <motion.div
-          className="grid-3 section"
-          variants={containerVariant}
-          initial="hidden"
-          animate="visible"
-        >
-          <div className="grid-3 section">
-            <AdminCard title="Total Hospitals" value={summary.totalHospitals} />
-            <AdminCard title="High Emergency Surge" value={summary.highSurge} />
-            <AdminCard title="Critical ICU Risk" value={summary.criticalICU} />
-            <AdminCard title="High Staff Burnout" value={summary.highBurnout} />
-          </div>
-        </motion.div>
-        {/* ===== HOSPITAL COMPARISON ===== */}
-        <div className="card section">
-          <h2>Hospital Emergency Load Comparison</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={hospitals}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="emergency" fill="#ff4d4d" />
-            </BarChart>
-          </ResponsiveContainer>
-          <p style={{ marginTop: "10px", fontSize: "14px", color: "#6b7280" }}>
-            (1 = Low, 2 = Medium, 3 = High emergency pressure)
-          </p>
+        <div style={grid}>
+          <Card title="Total Hospitals" value={stats.hospitals} />
+          <Card
+            title="System ICU Capacity"
+            value={`${stats.icu.toFixed(1)}%`}
+          />
+          <Card title="Active Managers" value={stats.managers} />
+          <Card title="Critical Alerts" value={stats.alerts} />
         </div>
-      </div>
-    </>
+
+        <div style={card}>
+          <h3>Global Hospital Load Trend (ML-Ready)</h3>
+          <ResponsiveContainer width="100%" height={280}>
+            <AreaChart data={chartData}>
+              <XAxis dataKey="month" />
+              <YAxis unit="%" />
+              <Tooltip />
+              <Area dataKey="load" stroke="#2563eb" fill="#93c5fd" />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      </main>
+    </div>
   );
 };
-// ================= ANIMATION VARIANTS =================
 
-const containerVariant = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.15 },
-  },
+const Card = ({ title, value }) => (
+  <div style={kpi}>
+    <p>{title}</p>
+    <h2>{value}</h2>
+  </div>
+);
+
+const layout = { display: "flex", minHeight: "100vh", background: "#f1f5f9" };
+const sidebar = {
+  width: 220,
+  background: "#0f172a",
+  color: "#fff",
+  padding: 24,
 };
-
-const cardVariant = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: "easeOut" },
-  },
+const main = { flex: 1, padding: 32 };
+const grid = {
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
+  gap: 20,
+  marginBottom: 40,
 };
-
-
-/* ===== ADMIN SUMMARY CARD ===== */
-
-const AdminCard = ({ title, value }) => {
-  return (
-    <motion.div
-      className="card"
-      variants={cardVariant}
-      whileHover={{ scale: 1.03 }}
-    >
-      <h3>{title}</h3>
-      <p style={{ fontSize: "26px", fontWeight: "600" }}>{value}</p>
-    </motion.div>
-  );
+const kpi = {
+  background: "#fff",
+  padding: 20,
+  borderRadius: 14,
+  boxShadow: "0 10px 25px rgba(0,0,0,.08)",
+};
+const card = {
+  background: "#fff",
+  padding: 24,
+  borderRadius: 14,
+  boxShadow: "0 10px 25px rgba(0,0,0,.08)",
 };
 
 export default AdminDashboard;
