@@ -194,7 +194,7 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 ---
 
-## 🖼 Screenshots
+## 📷 Screenshots
 
  
 * Relevant Screenshots
@@ -208,8 +208,6 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 <img width="1918" height="891" alt="Screenshot 2026-01-04 122444" src="https://github.com/user-attachments/assets/7f557630-4c90-42b3-87d5-6adf5e4a5c82" />
 
-<img width="1919" height="883" alt="Screenshot 2026-01-04 122452" src="https://github.com/user-attachments/assets/48234ff2-ef4f-4311-b181-8afcfd6d0144" />
-
 <img width="1919" height="890" alt="Screenshot 2026-01-04 122535" src="https://github.com/user-attachments/assets/19c8ebe2-245f-42bd-9369-13e5ba9d2e68" />
 
 <img width="1917" height="889" alt="Screenshot 2026-01-04 122556" src="https://github.com/user-attachments/assets/bb5552d2-dc77-48d2-aaf3-04e2520522c2" />
@@ -217,6 +215,8 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 ![Admin Dashboard](https://github.com/user-attachments/assets/ce1801ef-bc9c-41aa-8b92-e3d69d568130)
 
 ![Manager Dashboard](https://github.com/user-attachments/assets/f6e8f49a-1835-430e-b180-8909374f092d)
+
+<img width="1919" height="883" alt="Screenshot 2026-01-04 122452" src="https://github.com/user-attachments/assets/48234ff2-ef4f-4311-b181-8afcfd6d0144" />
 
 
 ---
