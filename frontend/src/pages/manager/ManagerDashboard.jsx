@@ -167,4 +167,5 @@ const card = {
   boxShadow: "0 10px 25px rgba(0,0,0,.08)",
 };
 
+
 export default ManagerDashboard;
