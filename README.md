@@ -54,7 +54,7 @@ management.
 
 ## 🛠 Tech Stack
 
-<p align="center"> <img src="https://skillicons.dev/icons?i=react,js,html,css,nodejs,npm,mysql,express,git,github" /> </p>
+<p align="left"> <img src="https://skillicons.dev/icons?i=react,js,html,css,nodejs,npm,mysql,express,git,github" /> </p>
 
 | Technology        | Usage                 |
 | ----------------- | --------------------- |
