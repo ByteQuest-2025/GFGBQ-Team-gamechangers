@@ -205,9 +205,7 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
  Manager Dashboard
  Login / Register Page
  Dark Mode UI
-> 
 
-```md
 <img width="1918" height="891" alt="Screenshot 2026-01-04 122444" src="https://github.com/user-attachments/assets/7f557630-4c90-42b3-87d5-6adf5e4a5c82" />
 
 <img width="1919" height="883" alt="Screenshot 2026-01-04 122452" src="https://github.com/user-attachments/assets/48234ff2-ef4f-4311-b181-8afcfd6d0144" />
@@ -220,7 +218,6 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 ![Manager Dashboard](https://github.com/user-attachments/assets/f6e8f49a-1835-430e-b180-8909374f092d)
 
-```
 
 ---
 
