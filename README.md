@@ -20,7 +20,7 @@
 * [Installation](#-installation)
 * [Usage](#-usage)
 * [Screenshots](#-screenshots)
-* [Deployment](#-deployment)
+* [PPT DRIVE](#-deployment)
 * [Future Enhancements](#-future-enhancements)
 * [Contributing](#-contributing)
 * [Author](#-author)
@@ -29,7 +29,7 @@
 
 ## 🔍 Overview
 
- Medix is a full-stack web application designed to modernize hospital administration and 
+ * Medix is a full-stack web application designed to modernize hospital administration and 
 grievance redressal using AI-driven workflows and role-based access.
  The system provides:
  Admin dashboard for system-level control
@@ -54,7 +54,7 @@ management.
 
 ## 🛠 Tech Stack
 
-<p align="left"> <img src="https://skillicons.dev/icons?i=react,js,html,css,nodejs,npm,mysql,express,git,github" /> </p>
+<p align="left"> <img src="https://skillicons.dev/icons?i=react, js, html, css, nodejs, npm,mysql, express, git, github" /> </p>
 
 | Technology        | Usage                 |
 | ----------------- | --------------------- |
@@ -71,18 +71,97 @@ management.
 
 ```bash
 project-root/
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── assets/
-│   ├── App.js
-│   ├── index.js
-│   └── styles/
+│
+├── frontend
+│ │
+│ ├── public
+│ │ ├── index.html
+│ │ ├── favicon.ico
+│ │ └── assets
+│ │ ├── images
+│ │ └── icons
+│ │
+│ ├── src
+│ │ ├── components
+│ │ │ ├── Navbar.jsx
+│ │ │ ├── Footer.jsx
+│ │ │ ├── Loader.jsx
+│ │ │ └── ProtectedRoute.jsx
+│ │ │
+│ │ ├── pages
+│ │ │ ├── Home.jsx
+│ │ │ ├── Login.jsx
+│ │ │ ├── Register.jsx
+│ │ │ ├── Dashboard.jsx
+│ │ │ └── NotFound.jsx
+│ │ │
+│ │ ├── services
+│ │ │ ├── api.js
+│ │ │ └── authService.js
+│ │ │
+│ │ ├── styles
+│ │ │ ├── main.css
+│ │ │ └── animations.css
+│ │ │
+│ │ ├── context
+│ │ │ └── AuthContext.jsx
+│ │ │
+│ │ ├── utils
+│ │ │ └── helpers.js
+│ │ │
+│ │ ├── App.jsx
+│ │ ├── main.jsx
+│ │ └── routes.jsx
+│ │
+│ ├── .env
+│ ├── package.json
+│ └── vite.config.js
+│
+├── backend
+│ │
+│ ├── src
+│ │ │
+│ │ ├── config
+│ │ │ ├── db.js
+│ │ │ └── env.js
+│ │ │
+│ │ ├── controllers
+│ │ │ ├── authController.js
+│ │ │ ├── userController.js
+│ │ │ ├── hospitalController.js
+│ │ │ └── predictionController.js
+│ │ │
+│ │ ├── routes
+│ │ │ ├── authRoutes.js
+│ │ │ ├── userRoutes.js
+│ │ │ ├── hospitalRoutes.js
+│ │ │ └── predictionRoutes.js
+│ │ │
+│ │ ├── middlewares
+│ │ │ ├── authMiddleware.js
+│ │ │ └── errorMiddleware.js
+│ │ │
+│ │ ├── models
+│ │ │ ├── User.js
+│ │ │ ├── Hospital.js
+│ │ │ └── Admission.js
+│ │ │
+│ │ ├── services
+│ │ │ └── predictionService.js
+│ │ │
+│ │ ├── utils
+│ │ │ └── tokenUtils.js
+│ │ │
+│ │ ├── app.js
+│ │ └── server.js
+│ │
+│ ├── .env
+│ ├── package.json
+│ └── nodemon.json
+│
 ├── .gitignore
-├── package.json
-└── README.md
+├── README.md
+└── package.json
 ```
 
 ---
@@ -117,8 +196,8 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 ## 🖼 Screenshots
 
- 📸
- Relevant Screenshots
+ 
+* Relevant Screenshots
  Add screenshots here to help reviewers understand the project
  (Example sections below)
  Homepage
@@ -126,25 +205,28 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
  Manager Dashboard
  Login / Register Page
  Dark Mode UI
-> Add screenshots or GIFs here to showcase your UI
+> 
 
 ```md
-![Home Page](screenshots/home.png)
+<img width="1918" height="891" alt="Screenshot 2026-01-04 122444" src="https://github.com/user-attachments/assets/7f557630-4c90-42b3-87d5-6adf5e4a5c82" />
+
+<img width="1919" height="883" alt="Screenshot 2026-01-04 122452" src="https://github.com/user-attachments/assets/48234ff2-ef4f-4311-b181-8afcfd6d0144" />
+
+<img width="1919" height="890" alt="Screenshot 2026-01-04 122535" src="https://github.com/user-attachments/assets/19c8ebe2-245f-42bd-9369-13e5ba9d2e68" />
+
+<img width="1917" height="889" alt="Screenshot 2026-01-04 122556" src="https://github.com/user-attachments/assets/bb5552d2-dc77-48d2-aaf3-04e2520522c2" />
+
+![Admin Dashboard](https://github.com/user-attachments/assets/ce1801ef-bc9c-41aa-8b92-e3d69d568130)
+
+![Manager Dashboard](https://github.com/user-attachments/assets/f6e8f49a-1835-430e-b180-8909374f092d)
+
 ```
 
 ---
 
-## 🚀 Deployment
+## 🚀 PPT DRIVE
 
-The project can be deployed using:
-
-* Vercel
-* Netlify
-* GitHub Pages
-
-```bash
-npm run build
-```
+[https://drive.google.com/file/d/1W8XOFvY2QDq7qJ8FsicAdQkXNsspDTZe/view?usp=sharing]
 
 ---
 
@@ -152,7 +234,7 @@ npm run build
 
 * 🔐 AI chatbot for hospital assistance
 * 📊 Dashboard & analytics
-* 🌙  Priority prediction
+* 🌙 Priority prediction
 * 📱 Machine Learning-based grievance classification
 
 ---
